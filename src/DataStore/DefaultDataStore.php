@@ -18,8 +18,7 @@
 namespace Okta\DataStore;
 
 use Cache\Adapter\Common\CacheItem;
-use function GuzzleHttp\Psr7\build_query;
-use function GuzzleHttp\Psr7\parse_query;
+use GuzzleHttp\Psr7 as GuzzleHttpPsr7;
 use Http\Client\Common\Plugin\AuthenticationPlugin;
 use Http\Client\Common\PluginClient;
 use Http\Client\HttpClient;
@@ -307,7 +306,7 @@ class DefaultDataStore
      */
     private function appendQueryValues($currentQuery, $queryDictionary)
     {
-        $currentQueryParts = parse_query($currentQuery);
+        $currentQueryParts = GuzzleHttpPsr7\parse_query($currentQuery);
         if ($currentQuery == '') {
             $result = [];
         }
@@ -320,7 +319,7 @@ class DefaultDataStore
             }
         }
         $result = array_replace_recursive($currentQueryParts, $result);
-        return build_query($result);
+        return GuzzleHttpPsr7\build_query($result);
     }
     /**
      * Get the current PluginClient instance.
